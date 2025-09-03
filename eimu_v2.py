@@ -29,10 +29,7 @@ class EIMU_V2:
     def get(self, cmd_route, motor_no):
         cmd_str = cmd_route+","+str(motor_no)
         data = self.send_and_receive(cmd_str).split(',')
-        if len(data)==1:
-            return float(data[0])
-        elif len(data)==2:
-            return float(data[0]), float(data[1])
+        return float(data[0])
         
     def setWorldFrameId(self, id):
         res = self.send("/frame-id", -1, id)
