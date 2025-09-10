@@ -5,6 +5,7 @@ port = '/dev/ttyUSB0'
 eimuV2 = EIMU_V2(port)
 
 def main():
+  print("success")
   for i in range(2):
     time.sleep(1.0)
     print(i+1, " sec")
@@ -28,9 +29,7 @@ def main():
   while True:
     if time.time() - prevTime > sampleTime:
       try:
-        r = eimuV2.readRPY(0)
-        p = eimuV2.readRPY(1)
-        y = eimuV2.readRPY(2)
+        r, p, y = eimuV2.readRPY()
 
         print(f"r: {r}\tp: {p}\ty: {y}")
       except:
@@ -40,3 +39,4 @@ def main():
 
 if __name__ == "__main__":
   main()
+  
