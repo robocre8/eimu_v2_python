@@ -15,7 +15,7 @@ SET_FRAME_ID = 0x1F
 GET_FRAME_ID = 0x20
 
 class EIMU_V2:
-    def __init__(self, port, baud=115200, timeOut=0.1):
+    def __init__(self, port, baud=921600, timeOut=0.1):
         self.ser = serial.Serial(port, baud, timeout=timeOut)
     
     #------------------------------------------------------------------------
