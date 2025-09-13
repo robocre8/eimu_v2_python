@@ -13,6 +13,8 @@ READ_MAG = 0x11
 GET_FILTER_GAIN = 0x1E
 SET_FRAME_ID = 0x1F
 GET_FRAME_ID = 0x20
+READ_QUAT_RPY = 0x22
+READ_ACC_GYRO = 0x23
 
 class EIMU_V2:
     def __init__(self, port, baud=921600, timeOut=0.1):
@@ -47,6 +49,16 @@ class EIMU_V2:
         payload = self.ser.read(16)
         a, b, c, d = struct.unpack('<ffff', payload)  # little-endian float
         return a, b, c, d
+    
+    def read_packet6(self):
+        payload = self.ser.read(24)
+        a, b, c, d, e, f = struct.unpack('<ffffff', payload)  # little-endian float
+        return a, b, c, d, e, f
+    
+    def read_packet8(self):
+        payload = self.ser.read(32)
+        a, b, c, d, e, f, g, h = struct.unpack('<ffffffff', payload)  # little-endian float
+        return a, b, c, d, e, f, g, h
     
     #---------------------------------------------------------------------
 
@@ -83,6 +95,16 @@ class EIMU_V2:
         self.send_packet_without_payload(cmd)
         a, b, c, d = self.read_packet4()
         return a, b, c, d
+    
+    def read_data6(self, cmd):
+        self.send_packet_without_payload(cmd)
+        a, b, c, d, e, f = self.read_packet6()
+        return a, b, c, d, e, f
+    
+    def read_data8(self, cmd):
+        self.send_packet_without_payload(cmd)
+        a, b, c, d, e, f, g, h = self.read_packet8()
+        return a, b, c, d, e, f, g, h
         
     #---------------------------------------------------------------------
 
@@ -129,3 +151,13 @@ class EIMU_V2:
     def readMag(self):
         mx, my, mz = self.read_data3(READ_MAG)
         return round(mx,6), round(my,6), round(mz,6)
+    
+    #---------------------------------------------------------------------
+
+    def readQuatRPY(self):
+        qw, qx, qy, qz, r, p, y, _ = self.read_data8(READ_QUAT_RPY)
+        return round(qw,6), round(qx,6), round(qy,6), round(qz,6), round(r,6), round(p,6), round(y,6)
+    
+    def readAccGyro(self):
+        ax, ay, az, gx, gy, gz = self.read_data6(READ_ACC_GYRO)
+        return round(ax,6), round(ay,6), round(az,6), round(gx,6), round(gy,6), round(gz,6)
