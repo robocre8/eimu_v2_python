@@ -15,6 +15,7 @@ SET_FRAME_ID = 0x1F
 GET_FRAME_ID = 0x20
 READ_QUAT_RPY = 0x22
 READ_ACC_GYRO = 0x23
+CLEAR_DATA_BUFFER = 0x27
 
 class EIMU_V2:
     def __init__(self, port, baud=921600, timeOut=0.1):
@@ -108,6 +109,10 @@ class EIMU_V2:
         
     #---------------------------------------------------------------------
 
+    def clearDataBuffer(self):
+        res = self.write_data1(CLEAR_DATA_BUFFER, 0, 0.0)
+        return int(res)
+    
     def setWorldFrameId(self, id):
         res = self.write_data1(SET_FRAME_ID, 0, id)
         return int(res)

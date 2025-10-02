@@ -10,6 +10,8 @@ def main():
     time.sleep(1.0)
     print(i+1, " sec")
 
+  eimuV2.clearDataBuffer()
+  
   # change the reference frame to ENU frame (0 - NWU,  1 - ENU,  2 - NED)
   eimuV2.setWorldFrameId(1)
 
