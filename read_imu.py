@@ -1,7 +1,7 @@
 import time
 from eimu_v2 import EIMU_V2
 
-port = '/dev/ttyUSB0'
+port = '/dev/ttyACM0'
 eimuV2 = EIMU_V2(port)
 
 def main():
@@ -11,7 +11,7 @@ def main():
     print(i+1, " sec")
 
   eimuV2.clearDataBuffer()
-  
+
   # change the reference frame to ENU frame (0 - NWU,  1 - ENU,  2 - NED)
   eimuV2.setWorldFrameId(1)
 
